@@ -80,6 +80,34 @@ const Node = (data = null, leftChild = null, rightChild = null) => {
 const Tree = (array) => {
   return {
     root: initTree(array),
+    insert(value, node = this.root) {
+      if (!Number.isInteger(value)) {
+        return false;
+      }
+      if (node === null) {
+        return false;
+      }
+      if (node.data === value) {
+        return false;
+      }
+      const newNode = Node(value);
+
+      if (value > node.data) {
+        if (node.rightChild !== null) {
+          this.insert(value, node.rightChild);
+        } else {
+          node.rightChild = newNode;
+        }
+        //   this.insert(value, node.rightChild);
+      } else {
+        if (node.leftChild !== null) {
+          this.insert(value, node.leftChild);
+        } else {
+          node.leftChild = newNode;
+        }
+        //   this.insert(value, node.leftChild);
+      }
+    },
   };
 };
 
@@ -96,5 +124,6 @@ const printTree = (node, prefix = '', isLeft = true) => {
   }
 };
 
-const testTree = Tree([3, 2, 1, 5, 4, 6, 8, 7, 7, 9]);
+const testTree = Tree([3, 2, 1, 5, 6, 8, 7, 7, 9]);
+testTree.insert(4, testTree.root);
 printTree(testTree.root);
