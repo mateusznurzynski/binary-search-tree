@@ -108,17 +108,17 @@ const Tree = (array) => {
         //   this.insert(value, node.leftChild);
       }
     },
-    findNode(value, currentNode = this.root) {
+    findNode(value, currentNode = this.root, parentNode) {
       if (currentNode === null) {
         return false;
       }
       if (currentNode.data === value) {
-        return currentNode;
+        return { node: currentNode, parentNode };
       }
       if (value > currentNode.data) {
-        return this.findNode(value, currentNode.rightChild);
+        return this.findNode(value, currentNode.rightChild, currentNode);
       } else if (value < currentNode.data) {
-        return this.findNode(value, currentNode.leftChild);
+        return this.findNode(value, currentNode.leftChild, currentNode);
       }
     },
     delete(value, node) {
@@ -146,4 +146,4 @@ const printTree = (node, prefix = '', isLeft = true) => {
 const testTree = Tree([3, 2, 1, 5, 6, 8, 7, 7, 9]);
 testTree.insert(4, testTree.root);
 printTree(testTree.root);
-console.log(testTree.findNode(123));
+console.log(testTree.findNode(8));
