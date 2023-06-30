@@ -120,6 +120,7 @@ const Tree = (array) => {
         }
       }
     },
+
     levelOrder(callbackFunction) {
       let returnArray = false;
       if (!callbackFunction || typeof callbackFunction !== 'function') {
@@ -144,6 +145,105 @@ const Tree = (array) => {
         if (!returnArray) {
           callbackFunction(currentNode);
         }
+      }
+
+      if (returnArray) {
+        return resultArray;
+      }
+    },
+
+    preOrder(callbackFunction, currentNode = this.root, resultArray = []) {
+      let returnArray = false;
+      if (!callbackFunction || typeof callbackFunction !== 'function') {
+        returnArray = true;
+      }
+
+      resultArray.push(currentNode.data);
+      if (!returnArray) {
+        callbackFunction(currentNode);
+      }
+
+      let returnedArray = [];
+
+      if (currentNode.leftChild) {
+        returnedArray = this.preOrder(
+          callbackFunction,
+          currentNode.leftChild,
+          resultArray
+        );
+      }
+      if (currentNode.rightChild) {
+        returnedArray = this.preOrder(
+          callbackFunction,
+          currentNode.rightChild,
+          resultArray
+        );
+      }
+
+      if (returnArray) {
+        return resultArray;
+      }
+    },
+
+    inOrder(callbackFunction, currentNode = this.root, resultArray = []) {
+      let returnArray = false;
+      if (!callbackFunction || typeof callbackFunction !== 'function') {
+        returnArray = true;
+      }
+      let returnedArray = [];
+
+      if (currentNode.leftChild) {
+        returnedArray = this.inOrder(
+          callbackFunction,
+          currentNode.leftChild,
+          resultArray
+        );
+      }
+
+      resultArray.push(currentNode.data);
+      if (!returnArray) {
+        callbackFunction(currentNode);
+      }
+
+      if (currentNode.rightChild) {
+        returnedArray = this.inOrder(
+          callbackFunction,
+          currentNode.rightChild,
+          resultArray
+        );
+      }
+
+      if (returnArray) {
+        return resultArray;
+      }
+    },
+
+    postOrder(callbackFunction, currentNode = this.root, resultArray = []) {
+      let returnArray = false;
+      if (!callbackFunction || typeof callbackFunction !== 'function') {
+        returnArray = true;
+      }
+      let returnedArray = [];
+
+      if (currentNode.leftChild) {
+        returnedArray = this.postOrder(
+          callbackFunction,
+          currentNode.leftChild,
+          resultArray
+        );
+      }
+
+      if (currentNode.rightChild) {
+        returnedArray = this.postOrder(
+          callbackFunction,
+          currentNode.rightChild,
+          resultArray
+        );
+      }
+
+      resultArray.push(currentNode.data);
+      if (!returnArray) {
+        callbackFunction(currentNode);
       }
 
       if (returnArray) {
