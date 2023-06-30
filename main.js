@@ -69,6 +69,17 @@ const initTree = (array) => {
   return buildTree(sortedArray);
 };
 
+const findReplacementNode = ({ node }, firstIteration = true, parentNode) => {
+  if (firstIteration) {
+    return findReplacementNode({ node: node.rightChild }, false, node);
+  }
+  if (node.leftChild) {
+    return findReplacementNode({ node: node.leftChild }, false, node);
+  } else {
+    return { node, parentNode };
+  }
+};
+
 const Node = (data = null, leftChild = null, rightChild = null) => {
   return {
     data,
@@ -126,6 +137,38 @@ const Tree = (array) => {
         return false;
       }
       const nodeToDelete = node ? node : this.findNode(value);
+      if (
+        (nodeToDelete.node.leftChild === null) &
+        (nodeToDelete.node.rightChild === null)
+      ) {
+        // LEAF NODE
+        if (nodeToDelete.node.data > nodeToDelete.parentNode.data) {
+          nodeToDelete.parentNode.rightChild = null;
+          return nodeToDelete.parentNode;
+        } else {
+          nodeToDelete.parentNode.leftChild = null;
+          return nodeToDelete.parentNode;
+        }
+      } else if (
+        nodeToDelete.node.leftChild !== null &&
+        nodeToDelete.node.rightChild !== null
+      ) {
+        // TWO CHILDREN
+        const replacementNode = findReplacementNode(nodeToDelete);
+        this.delete(null, replacementNode);
+        nodeToDelete.node.data = replacementNode.node.data;
+      } else {
+        // ONE CHILD
+        if (nodeToDelete.node.data > nodeToDelete.parentNode.data) {
+          nodeToDelete.parentNode.rightChild =
+            nodeToDelete.node.rightChild || nodeToDelete.node.leftChild;
+          return nodeToDelete.parentNode;
+        } else {
+          nodeToDelete.parentNode.leftChild =
+            nodeToDelete.node.rightChild || nodeToDelete.node.leftChild;
+          return nodeToDelete.parentNode;
+        }
+      }
     },
   };
 };
@@ -145,5 +188,6 @@ const printTree = (node, prefix = '', isLeft = true) => {
 
 const testTree = Tree([3, 2, 1, 5, 6, 8, 7, 7, 9]);
 testTree.insert(4, testTree.root);
+testTree.delete(7);
+
 printTree(testTree.root);
-console.log(testTree.findNode(8));
