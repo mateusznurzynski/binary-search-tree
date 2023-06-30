@@ -120,6 +120,36 @@ const Tree = (array) => {
         }
       }
     },
+    levelOrder(callbackFunction) {
+      let returnArray = false;
+      if (!callbackFunction || typeof callbackFunction !== 'function') {
+        returnArray = true;
+      }
+
+      const queue = [this.root];
+      const resultArray = [];
+
+      while (queue.length > 0) {
+        const currentNode = queue[0];
+        queue.shift();
+
+        if (currentNode.leftChild) {
+          queue.push(currentNode.leftChild);
+        }
+        if (currentNode.rightChild) {
+          queue.push(currentNode.rightChild);
+        }
+
+        resultArray.push(currentNode.data);
+        if (!returnArray) {
+          callbackFunction(currentNode);
+        }
+      }
+
+      if (returnArray) {
+        return resultArray;
+      }
+    },
   };
 };
 
