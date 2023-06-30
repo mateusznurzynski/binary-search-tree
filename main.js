@@ -89,88 +89,88 @@ const Node = (data = null, leftChild = null, rightChild = null) => {
 };
 
 const Tree = (array) => {
-  return {
-    root: initTree(array),
-    insert(value, node = this.root) {
-      if (!Number.isInteger(value)) {
-        return false;
-      }
-      if (node === null) {
-        return false;
-      }
-      if (node.data === value) {
-        return false;
-      }
-      const newNode = Node(value);
+  const root = initTree(array);
+  const insert = (value, node = root) => {
+    if (!Number.isInteger(value)) {
+      return false;
+    }
+    if (node === null) {
+      return false;
+    }
+    if (node.data === value) {
+      return false;
+    }
 
-      if (value > node.data) {
-        if (node.rightChild !== null) {
-          this.insert(value, node.rightChild);
-        } else {
-          node.rightChild = newNode;
-        }
-        //   this.insert(value, node.rightChild);
+    const newNode = Node(value);
+    if (value > node.data) {
+      if (node.rightChild !== null) {
+        insert(value, node.rightChild);
       } else {
-        if (node.leftChild !== null) {
-          this.insert(value, node.leftChild);
-        } else {
-          node.leftChild = newNode;
-        }
-        //   this.insert(value, node.leftChild);
+        node.rightChild = newNode;
       }
-    },
-    findNode(value, currentNode = this.root, parentNode) {
-      if (currentNode === null) {
-        return false;
-      }
-      if (currentNode.data === value) {
-        return { node: currentNode, parentNode };
-      }
-      if (value > currentNode.data) {
-        return this.findNode(value, currentNode.rightChild, currentNode);
-      } else if (value < currentNode.data) {
-        return this.findNode(value, currentNode.leftChild, currentNode);
-      }
-    },
-    delete(value, node) {
-      if (!value && !node) {
-        return false;
-      }
-      const nodeToDelete = node ? node : this.findNode(value);
-      if (
-        (nodeToDelete.node.leftChild === null) &
-        (nodeToDelete.node.rightChild === null)
-      ) {
-        // LEAF NODE
-        if (nodeToDelete.node.data > nodeToDelete.parentNode.data) {
-          nodeToDelete.parentNode.rightChild = null;
-          return nodeToDelete.parentNode;
-        } else {
-          nodeToDelete.parentNode.leftChild = null;
-          return nodeToDelete.parentNode;
-        }
-      } else if (
-        nodeToDelete.node.leftChild !== null &&
-        nodeToDelete.node.rightChild !== null
-      ) {
-        // TWO CHILDREN
-        const replacementNode = findReplacementNode(nodeToDelete);
-        this.delete(null, replacementNode);
-        nodeToDelete.node.data = replacementNode.node.data;
+    } else {
+      if (node.leftChild !== null) {
+        insert(value, node.leftChild);
       } else {
-        // ONE CHILD
-        if (nodeToDelete.node.data > nodeToDelete.parentNode.data) {
-          nodeToDelete.parentNode.rightChild =
-            nodeToDelete.node.rightChild || nodeToDelete.node.leftChild;
-          return nodeToDelete.parentNode;
-        } else {
-          nodeToDelete.parentNode.leftChild =
-            nodeToDelete.node.rightChild || nodeToDelete.node.leftChild;
-          return nodeToDelete.parentNode;
-        }
+        node.leftChild = newNode;
       }
-    },
+    }
   };
+
+  const findNode = (value, currentNode = root, parentNode) => {
+    if (currentNode === null) {
+      return false;
+    }
+    if (currentNode.data === value) {
+      return { node: currentNode, parentNode };
+    }
+    if (value > currentNode.data) {
+      return findNode(value, currentNode.rightChild, currentNode);
+    } else if (value < currentNode.data) {
+      return findNode(value, currentNode.leftChild, currentNode);
+    }
+  };
+
+  const deleteNode = (value, node) => {
+    if (!value && !node) {
+      return false;
+    }
+    const nodeToDelete = node ? node : findNode(value);
+    if (
+      (nodeToDelete.node.leftChild === null) &
+      (nodeToDelete.node.rightChild === null)
+    ) {
+      // LEAF NODE
+      if (nodeToDelete.node.data > nodeToDelete.parentNode.data) {
+        nodeToDelete.parentNode.rightChild = null;
+        return nodeToDelete.parentNode;
+      } else {
+        nodeToDelete.parentNode.leftChild = null;
+        return nodeToDelete.parentNode;
+      }
+    } else if (
+      nodeToDelete.node.leftChild !== null &&
+      nodeToDelete.node.rightChild !== null
+    ) {
+      // TWO CHILDREN
+      const replacementNode = findReplacementNode(nodeToDelete);
+      deleteNode(null, replacementNode);
+      nodeToDelete.node.data = replacementNode.node.data;
+    } else {
+      // ONE CHILD
+      if (nodeToDelete.node.data > nodeToDelete.parentNode.data) {
+        nodeToDelete.parentNode.rightChild =
+          nodeToDelete.node.rightChild || nodeToDelete.node.leftChild;
+        return nodeToDelete.parentNode;
+      } else {
+        nodeToDelete.parentNode.leftChild =
+          nodeToDelete.node.rightChild || nodeToDelete.node.leftChild;
+        return nodeToDelete.parentNode;
+      }
+    }
+  };
+
+  return { root, insert, findNode, deleteNode };
 };
 
 const printTree = (node, prefix = '', isLeft = true) => {
@@ -188,6 +188,6 @@ const printTree = (node, prefix = '', isLeft = true) => {
 
 const testTree = Tree([3, 2, 1, 5, 6, 8, 7, 7, 9]);
 testTree.insert(4, testTree.root);
-testTree.delete(7);
+testTree.deleteNode(7);
 
 printTree(testTree.root);
