@@ -288,6 +288,23 @@ const Tree = (array) => {
       }
       return depth;
     },
+
+    isBalanced(node = this.root) {
+      let isBalanced = true;
+      this.levelOrder((node) => {
+        let difference = 0;
+        const leftHeight = this.height(node.leftChild);
+        const rightHeight = this.height(node.rightChild);
+        difference = leftHeight - rightHeight;
+        difference = difference < 0 ? difference * -1 : difference;
+        if (difference > 1) {
+          isBalanced = false;
+          return isBalanced;
+        }
+      });
+
+      return isBalanced;
+    },
   };
 };
 

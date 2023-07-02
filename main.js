@@ -13,9 +13,7 @@ const printTree = (node, prefix = '', isLeft = true) => {
   }
 };
 
-const testTree = Tree([3, 2, 1, 5, 6, 8, 7, 7, 4, 9]);
-testTree.delete(8);
-testTree.delete(7);
+const testTree = Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
 console.log(testTree.levelOrder());
 console.log(testTree.preOrder());
@@ -23,6 +21,4 @@ console.log(testTree.inOrder());
 console.log(testTree.postOrder());
 
 printTree(testTree.root);
-console.log(testTree.height(testTree.root));
-console.log(testTree.depth(testTree.findNode(9)));
-console.log(testTree.root);
+console.log(testTree.isBalanced());
