@@ -250,6 +250,25 @@ const Tree = (array) => {
         return resultArray;
       }
     },
+
+    height(node, height = 0) {
+      if (node === null) {
+        return height;
+      }
+      if (node.leftChild === null && node.rightChild === null) {
+        return height + 1;
+      }
+      height++;
+
+      const leftHeight = this.height(node.leftChild, height);
+      const rightHeight = this.height(node.rightChild, height);
+
+      if (leftHeight >= rightHeight) {
+        return leftHeight;
+      } else {
+        return rightHeight;
+      }
+    },
   };
 };
 
