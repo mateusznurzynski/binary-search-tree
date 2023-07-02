@@ -14,21 +14,30 @@ const printTree = (node, prefix = '', isLeft = true) => {
   }
 };
 
-const generateTreeInput = (inputSize) => {
+const generateTreeInput = (inputSize, min = 1, max = 99) => {
   const input = [];
   for (let i = 0; i < inputSize; i++) {
-    input.push(getRandomNumber(1, 99));
+    input.push(getRandomNumber(min, max));
   }
   return input;
 };
 
-const normalInput = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const additionalInput = generateTreeInput(10, 100, 200);
 
-const testTree = Tree(normalInput);
-testTree.delete(6);
+const testTree = Tree(generateTreeInput(20));
 
 console.log(testTree.isBalanced());
-console.log(testTree.rebalance());
+console.log(testTree.preOrder());
+console.log(testTree.inOrder());
+console.log(testTree.postOrder());
+additionalInput.forEach((element) => {
+  testTree.insert(element);
+});
 console.log(testTree.isBalanced());
+testTree.rebalance();
+console.log(testTree.isBalanced());
+console.log(testTree.preOrder());
+console.log(testTree.inOrder());
+console.log(testTree.postOrder());
 
 printTree(testTree.root);

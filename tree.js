@@ -1,8 +1,6 @@
 import { mergeSort, removeDuplicates } from './utility.js';
 import { Node } from './node.js';
 
-let iterations = 0;
-
 const buildTree = (sortedArray, start = 0, end = sortedArray.length - 1) => {
   if (end < start) {
     return null;
@@ -264,7 +262,6 @@ const Tree = (array) => {
     },
 
     height(node, height = 0) {
-      iterations++;
       if (node === null) {
         return height;
       }
@@ -305,7 +302,6 @@ const Tree = (array) => {
           return isBalanced;
         }
       });
-      console.log(`${iterations} iterations`);
       return isBalanced;
     },
 
