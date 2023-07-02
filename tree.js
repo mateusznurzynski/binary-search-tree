@@ -279,6 +279,15 @@ const Tree = (array) => {
         return rightHeight;
       }
     },
+
+    depth(node) {
+      let depth = 0;
+      while (node !== null) {
+        depth++;
+        node = node.parentNode;
+      }
+      return depth;
+    },
   };
 };
 

@@ -24,4 +24,5 @@ console.log(testTree.postOrder());
 
 printTree(testTree.root);
 console.log(testTree.height(testTree.root));
+console.log(testTree.depth(testTree.findNode(9)));
 console.log(testTree.root);
