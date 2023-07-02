@@ -1,4 +1,5 @@
 import { Tree } from './tree.js';
+import { getRandomNumber } from './utility.js';
 
 const printTree = (node, prefix = '', isLeft = true) => {
   if (node === null) {
@@ -13,7 +14,15 @@ const printTree = (node, prefix = '', isLeft = true) => {
   }
 };
 
-const testTree = Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+const generateTreeInput = (inputSize) => {
+  const input = [];
+  for (let i = 0; i < inputSize; i++) {
+    input.push(getRandomNumber(1, 99));
+  }
+  return input;
+};
+
+const testTree = Tree(generateTreeInput(50));
 
 console.log(testTree.levelOrder());
 console.log(testTree.preOrder());

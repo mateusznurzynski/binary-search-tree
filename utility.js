@@ -46,4 +46,8 @@ const removeDuplicates = (array) => {
   return cleanArray;
 };
 
-export { mergeSort, removeDuplicates };
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export { mergeSort, removeDuplicates, getRandomNumber };
