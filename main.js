@@ -22,12 +22,13 @@ const generateTreeInput = (inputSize) => {
   return input;
 };
 
-const testTree = Tree(generateTreeInput(50));
+const normalInput = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-console.log(testTree.levelOrder());
-console.log(testTree.preOrder());
-console.log(testTree.inOrder());
-console.log(testTree.postOrder());
+const testTree = Tree(normalInput);
+testTree.delete(6);
+
+console.log(testTree.isBalanced());
+console.log(testTree.rebalance());
+console.log(testTree.isBalanced());
 
 printTree(testTree.root);
-console.log(testTree.isBalanced());

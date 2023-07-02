@@ -308,6 +308,12 @@ const Tree = (array) => {
       console.log(`${iterations} iterations`);
       return isBalanced;
     },
+
+    rebalance() {
+      const newInput = this.inOrder();
+      this.root = buildTree(newInput);
+      return newInput;
+    },
   };
 };
 
