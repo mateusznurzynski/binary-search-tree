@@ -13,6 +13,12 @@ const buildTree = (sortedArray, start = 0, end = sortedArray.length - 1) => {
     buildTree(sortedArray, start, middle - 1),
     buildTree(sortedArray, middle + 1, end)
   );
+  if (treeNode.leftChild) {
+    treeNode.leftChild.parentNode = treeNode;
+  }
+  if (treeNode.rightChild) {
+    treeNode.rightChild.parentNode = treeNode;
+  }
 
   return treeNode;
 };
@@ -110,12 +116,16 @@ const Tree = (array) => {
       } else {
         // ONE CHILD
         if (nodeToDelete.node.data > nodeToDelete.parentNode.data) {
-          nodeToDelete.parentNode.rightChild =
+          const newNode =
             nodeToDelete.node.rightChild || nodeToDelete.node.leftChild;
+          nodeToDelete.parentNode.rightChild = newNode;
+          newNode.parentNode = nodeToDelete.parentNode;
           return nodeToDelete.parentNode;
         } else {
-          nodeToDelete.parentNode.leftChild =
+          const newNode =
             nodeToDelete.node.rightChild || nodeToDelete.node.leftChild;
+          nodeToDelete.parentNode.leftChild = newNode;
+          newNode.parentNode = nodeToDelete.parentNode;
           return nodeToDelete.parentNode;
         }
       }

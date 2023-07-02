@@ -14,6 +14,8 @@ const printTree = (node, prefix = '', isLeft = true) => {
 };
 
 const testTree = Tree([3, 2, 1, 5, 6, 8, 7, 7, 4, 9]);
+testTree.delete(8);
+testTree.delete(7);
 
 console.log(testTree.levelOrder());
 console.log(testTree.preOrder());
@@ -22,3 +24,4 @@ console.log(testTree.postOrder());
 
 printTree(testTree.root);
 console.log(testTree.height(testTree.root));
+console.log(testTree.root);
